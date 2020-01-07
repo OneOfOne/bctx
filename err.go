@@ -36,7 +36,7 @@ func (ec *errCtx) cancel(err error) {
 	ec.mux.Lock()
 	if ec.err == nil {
 		ec.fn()
-		ec.err = cancelError{err}
+		ec.err = &cancelError{err}
 	}
 	ec.mux.Unlock()
 }
