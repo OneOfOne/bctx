@@ -4,16 +4,6 @@ import (
 	"sync"
 )
 
-// WithValue returns a context that can hold multiple values and safe for concurrent access.
-func WithValue(parent Context, key, val interface{}) Context {
-	var vctx *valCtx
-	if vctx, _ := parent.(*valCtx); vctx == nil {
-		vctx = &valCtx{Context: parent}
-	}
-	vctx.set(key, val)
-	return vctx
-}
-
 type ValueSetter func(key, val interface{})
 
 func WithMultiValue(ctx Context) (Context, ValueSetter) {

@@ -14,6 +14,7 @@ var (
 	WithCancel   = context.WithCancel
 	WithDeadline = context.WithDeadline
 	WithTimeout  = context.WithTimeout
+	WithValue    = context.WithValue
 
 	Background = context.Background
 	TODO       = context.TODO
