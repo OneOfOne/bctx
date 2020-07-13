@@ -4,9 +4,16 @@ import (
 	"sync"
 )
 
+type valKey struct{}
+
+var vk = valKey{}
+
 type ValueSetter func(key, val interface{})
 
 func WithMultiValue(ctx Context) (Context, ValueSetter) {
+	if vctx, ok := ctx.Value(vk).(*valCtx); ok {
+		return vctx, vctx.set
+	}
 	vctx := &valCtx{Context: ctx}
 	return vctx, vctx.set
 }
@@ -18,6 +25,10 @@ type valCtx struct {
 }
 
 func (v *valCtx) Value(key interface{}) interface{} {
+	if key == vk {
+		return v
+	}
+
 	v.mux.RLock()
 	val, ok := v.m[key]
 	v.mux.RUnlock()
